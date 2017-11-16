@@ -1,6 +1,10 @@
 pip install Django==1.11.7
 python - 2.7.12
 
+Install Django-jet:
+pip install django-jet
+python manage.py migrate 
+
 Before starting the project :
 python manage.py makemigrations
 python manage.py migrate

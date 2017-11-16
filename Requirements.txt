@@ -1,0 +1,14 @@
+pip install Django==1.11.7
+python - 2.7.12
+
+Before starting the project :
+python manage.py makemigrations
+python manage.py migrate
+
+Creating the project:
+python manage.py startproject <project_name(oozaaoo)>
+
+Running the project :
+python manage.py runserver
+
+

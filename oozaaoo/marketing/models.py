@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-class TourPackage(models.Model):
+class Marketing(models.Model):
 	ACCOMODATION_TYPE = (
 		('Hotel', 'Hotel'),
 		('Resort', 'Resort')

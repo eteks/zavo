@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'marketing',
     'booking',
     'tourpackage',
-    'users'
+    'multiselectfield'
 ]
 
 MIDDLEWARE = [

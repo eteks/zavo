@@ -58,7 +58,7 @@ class Booking(models.Model):
 	package_Name = models.ForeignKey(Marketing,verbose_name = 'Package Name',max_length=50,related_name = 'package')
 	contactAddress = models.TextField(verbose_name = 'Contact Address',max_length=200)
 	contactMobile = models.CharField(verbose_name = 'Mobile',max_length=50)
-	contactMail = models.EmailField(verbose_name = 'Email',max_length = 50)
+	contactMail = models.EmailField(verbose_name = 'Email')
 	dateDeparture = models.DateField(verbose_name = 'Date of Departure')
 	dateArrival = models.DateField(verbose_name = 'Date of Arrival')
 	duration = models.IntegerField(verbose_name = 'Duration')

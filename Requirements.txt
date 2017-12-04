@@ -15,4 +15,6 @@ python manage.py startproject <project_name(oozaaoo)>
 Running the project :
 python manage.py runserver
 
+Others:
+pip install django-multiselectfield
 

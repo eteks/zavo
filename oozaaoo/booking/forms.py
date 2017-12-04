@@ -1,10 +1,17 @@
 from django import forms
 from booking.models import Booking
+<<<<<<< HEAD
+=======
+from django.core.exceptions import ValidationError
+import datetime
+
+>>>>>>> db3fda5b6f99d6fd3c54e6ebc388bac5354bf84e
 print "forms entered"
 # class BookingForm( forms.ModelForm ):
 class BookingForm(forms.ModelForm):
 	class Meta:
 		model=Booking
+<<<<<<< HEAD
 		fields= ['contactMobile','contactMail']
 
 	def clean_contactMail(self):
@@ -16,6 +23,39 @@ class BookingForm(forms.ModelForm):
 			raise forms.ValidationError("Use EDU")		
 		return contactMail
 
+=======
+		fields= ['package_Name', 'contactAddress', 'contactMobile','contactMail', 'dateDeparture', 'dateArrival', 'duration', 'totalPersons', 'adultPersons', 'childPersons', 'infantPersons', 'accomodationType', 'accomodationStar', 'modeOfTransport', 'mealPlan', 'modePayment', 'notes',]
+		dateDeparture = forms.DateField()
+	def clean_contactMail(self):
+		# print "clean_contactMail"
+		contactMail= self.cleaned_data.get('contactMail')
+		contactMail_base, provider = contactMail.split("@")
+		domain, extension = provider.split('.')
+		if not extension =="edu":
+			raise forms.ValidationError("Use EDU")	
+		return contactMail
+
+	def clean_contactMobile(self):
+	    contactMobile = self.cleaned_data.get('contactMobile')
+	    try:
+	        if long(contactMobile) and not contactMobile.isalpha():
+	            min_length = 10
+	            max_length = 13
+	            ph_length = str(contactMobile)
+	            if len(ph_length) < min_length or len(ph_length) > max_length:
+	                raise ValidationError('Phone number length not valid')
+
+	    except (ValueError, TypeError):
+	        raise ValidationError('Please enter a valid phone number')
+	    return contactMobile
+
+
+    # def clean_dateDeparture(self):
+    #     date = self.cleaned_data['dateDeparture']
+    #     if dateDeparture < datetime.dateDeparture.today():
+    #         raise forms.ValidationError("The date cannot be in the past!")
+    #     return dateDeparture
+>>>>>>> db3fda5b6f99d6fd3c54e6ebc388bac5354bf84e
 
     # contactMail = forms.EmailField(label=_("Email"))
     # contactMail = forms.CharField( 

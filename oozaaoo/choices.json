@@ -1,0 +1,7 @@
+{
+    "FLIGHT": ["ECONOMY","BUSINESS CLASS"],
+    "TRAIN": ["AC","NON AC"],
+    "BUS": ["SEMI-SLEEPER","SLEEPER"],
+    "CAR" : ["INDIGO","INNOVA","TEMPO"],
+    "GROUP" : ["MINI-BUS","BUS"]
+}

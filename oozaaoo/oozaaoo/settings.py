@@ -29,7 +29,8 @@ ALLOWED_HOSTS = [
 '10.0.0.16',
 '10.0.0.11',
 '10.0.0.6',
-'10.0.0.9'
+'10.0.0.9',
+'18.216.95.20'
 ]
 
 
@@ -132,5 +133,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'

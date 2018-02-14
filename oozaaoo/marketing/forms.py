@@ -6,10 +6,6 @@ class MarketingForm(forms.ModelForm):
 		model = Marketing
 		fields = '__all__'
 
-class accomodationTypeForm(MarketingForm):
-	class Meta(MarketingForm.Meta):
-		model = accomodationType
-		fields = '__all__'
 
 # class combinedForm(accomodationTypeForm):
 # 	class Meta(accomodationTypeForm.Meta):

@@ -1,5 +1,5 @@
 from django import forms
-from marketing.models import Marketing, accomodationType
+from marketing.models import Marketing, AccomodationType
 
 class MarketingForm(forms.ModelForm):
 	class Meta():

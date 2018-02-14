@@ -3,72 +3,34 @@ from __future__ import unicode_literals
 
 from django.db import models
 from tourpackage.models import Tourpackage
-print "model entered"
+from customer.models import Customer
+from master.models import *
+
 # Create your models here.
-class Booking(models.Model):
-	ACCOMODATION_TYPE = (
-		('Hotel', 'Hotel'),
-		('Resort', 'Resort')
-	)
-	ACCOMODATION_STAR =	(
-		('2 Star','2'),
-		('3 Star','3'),
-		('4 Star','4'),
-		('5 Star','5')
-	)
-	MODEOFTRANSPORT = (
-    	('FLIGHT',(
-    		('ECONOMY','ECONOMY'),
-    		('BUSINESS CLASS','BUSINESS CLASS')
-    		)
-    	),
-    	('TRAIN',(
-    		('AC','AC'),
-    		('NON AC','NON AC')
-    		)
-    	),
-    	('BUS',(
-    		('SLEEPER','SLEEPER'),
-    		('SEMI-SLEEPER','SEMI-SLEEPER')
-    		)
-    	),
-    	('CAR',(
-    		('INDIGO','INDIGO'),
-    		('INNOVA','INNOVA'),
-    		('TEMPO','TEMPO')
-    		)
-    	),
-    	('GROUP',(
-    		('MINI BUS','MINI BUS'),
-    		('BUS','BUS')
-    		)
-    	)
-	)
-	MEALPLAN = (
-		('EP','EP'),
-		('CP','CP'),
-		('MAP','MAP'),
-		('AP','AP')
-	)
-	PAYMENTMODE = (
-		('CASH','CASH'),
-		('CHEQUE/DD','CHEQUE/DD'),
-		('NET BANKING','NET BANKING')
-	)
-	package_Name = models.ForeignKey(Tourpackage,verbose_name = 'Package Name',max_length=50,related_name = 'package')
-	contactAddress = models.TextField(verbose_name = 'Contact Address',max_length=200)
-	contactMobile = models.CharField(verbose_name = 'Mobile',max_length=10)
-	contactMail = models.EmailField(verbose_name = 'Email')
-	dateDeparture = models.DateField(verbose_name = 'Date of Departure')
-	dateArrival = models.DateField(verbose_name = 'Date of Arrival')
-	duration = models.IntegerField(verbose_name = 'Duration')
-	totalPersons = models.IntegerField(verbose_name = 'Total number of persons')
-	adultPersons = models.IntegerField(verbose_name = 'No. of adults')
-	childPersons = models.IntegerField(verbose_name = 'No. of Children')
-	infantPersons = models.IntegerField(verbose_name = 'No. of infants')
-	accomodationType  = models.CharField(verbose_name = 'Accomodation type', choices = ACCOMODATION_TYPE,max_length = 50)
-	accomodationStar = models.CharField(verbose_name = 'Accomodation in Star Hotel', choices = ACCOMODATION_STAR,max_length = 50)
-	modeOfTransport = models.CharField(verbose_name = 'Mode of Transport', choices = MODEOFTRANSPORT,max_length = 50)
-	mealPlan = models.CharField(verbose_name =  'Meal Plan',choices = MEALPLAN, max_length = 50)
-	modePayment = models.CharField(verbose_name = 'Mode of Payment',choices = PAYMENTMODE, max_length = 20)
-	notes = models.TextField(verbose_name = "Notes, if any")
+class Booking(AbstractDefault):
+	customer = models.ForeignKey(Customer, verbose_name = 'Customer ID')
+	booking_id = models.CharField(verbose_name='Auto generated booking Id',max_length=20)
+	package = models.ForeignKey(Tourpackage,verbose_name = 'Package Name',max_length=50,related_name = 'package')	
+	departure_date = models.DateField(verbose_name = 'Date of Departure')
+	arrival_date = models.DateField(verbose_name = 'Date of Arrival')
+	no_of_days = models.IntegerField(verbose_name = 'No. of days')
+	no_of_nights = models.IntegerField(verbose_name = 'No. of nights')
+	no_of_adult = models.IntegerField(verbose_name = 'No. of adults')
+	no_of_children = models.IntegerField(verbose_name = 'No. of Children')
+	no_of_infant = models.IntegerField(verbose_name = 'No. of Infant')
+	total_person = models.IntegerField(verbose_name = 'Total Person')
+	package_cost = models.DecimalField(verbose_name = 'Package Cost (Adult)', max_digits = 10, decimal_places = 2) #Automatic generation
+	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2) #Automatic generation
+	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2) #Automatic generation
+	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2) #Automatic generation
+	accomodation = models.ManyToManyField(AccomodationStar, verbose_name = 'Accomodation Type and Star')
+	mode_of_transport = models.ManyToManyField(TransportType, verbose_name = 'Mode of Transport and Type')
+	mealplan = models.CharField(verbose_name = 'Meal Plan', max_length = 100,choices=MEAL_PLAN) #Multiple select in checkboxes
+	mealPlan_type = models.CharField(verbose_name = 'Meal Plan Type', max_length = 100,choices=MEAL_PLAN_TYPE) #Multiple select in checkboxes
+	remarks = models.TextField(verbose_name = "Notes, if any")
+	booking_confirmation_status = models.BooleanField(verbose_name ='Booking Team Confirmation status', default = False)
+	coordination_confirmation_status = models.BooleanField(verbose_name ='Co-ordination Team Confirmation status', default = False)
+	finance_confirmation_status = models.BooleanField(verbose_name ='Finance Team Confirmation status', default = False)
+
+	def __str__(self):
+		return self.booking_id

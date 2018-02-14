@@ -3,33 +3,33 @@ from booking.models import Booking
 from django.core.exceptions import ValidationError
 import datetime
 # class BookingForm( forms.ModelForm ):
-class BookingForm(forms.ModelForm):
-	class Meta:
-		model=Booking
-		fields= ['package_Name', 'contactAddress', 'contactMobile','contactMail', 'dateDeparture', 'dateArrival', 'duration', 'totalPersons', 'adultPersons', 'childPersons', 'infantPersons', 'accomodationType', 'accomodationStar', 'modeOfTransport', 'mealPlan', 'modePayment', 'notes',]
-		dateDeparture = forms.DateField()
-	def clean_contactMail(self):
-		# print "clean_contactMail"
-		contactMail= self.cleaned_data.get('contactMail')
-		contactMail_base, provider = contactMail.split("@")
-		domain, extension = provider.split('.')
-		if not extension =="edu":
-			raise forms.ValidationError("Use EDU")	
-		return contactMail
+# class BookingForm(forms.ModelForm):
+# 	class Meta:
+# 		model=Booking
+# 		fields= ['package_Name', 'contactAddress', 'contactMobile','contactMail', 'dateDeparture', 'dateArrival', 'duration', 'totalPersons', 'adultPersons', 'childPersons', 'infantPersons', 'accomodationType', 'accomodationStar', 'modeOfTransport', 'mealPlan', 'modePayment', 'notes',]
+# 		dateDeparture = forms.DateField()
+# 	def clean_contactMail(self):
+# 		# print "clean_contactMail"
+# 		contactMail= self.cleaned_data.get('contactMail')
+# 		contactMail_base, provider = contactMail.split("@")
+# 		domain, extension = provider.split('.')
+# 		if not extension =="edu":
+# 			raise forms.ValidationError("Use EDU")	
+# 		return contactMail
 
-	def clean_contactMobile(self):
-	    contactMobile = self.cleaned_data.get('contactMobile')
-	    try:
-	        if long(contactMobile) and not contactMobile.isalpha():
-	            min_length = 10
-	            max_length = 13
-	            ph_length = str(contactMobile)
-	            if len(ph_length) < min_length or len(ph_length) > max_length:
-	                raise ValidationError('Phone number length not valid')
+# 	def clean_contactMobile(self):
+# 	    contactMobile = self.cleaned_data.get('contactMobile')
+# 	    try:
+# 	        if long(contactMobile) and not contactMobile.isalpha():
+# 	            min_length = 10
+# 	            max_length = 13
+# 	            ph_length = str(contactMobile)
+# 	            if len(ph_length) < min_length or len(ph_length) > max_length:
+# 	                raise ValidationError('Phone number length not valid')
 
-	    except (ValueError, TypeError):
-	        raise ValidationError('Please enter a valid phone number')
-	    return contactMobile
+# 	    except (ValueError, TypeError):
+# 	        raise ValidationError('Please enter a valid phone number')
+# 	    return contactMobile
 
 
     # def clean_dateDeparture(self):

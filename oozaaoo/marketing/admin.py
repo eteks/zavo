@@ -10,13 +10,14 @@ from forms import MarketingForm
 
 # Register your models here.
 class MarketingAdmin(admin.ModelAdmin):
-	model = Marketing
-	list_display = ('get_package','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','notes')
-	form = MarketingForm
+	# model = Marketing
+	# list_display = ('get_package','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','notes')
+	# form = MarketingForm
 
-	def get_package(self, obj):
-		return obj.packageName
-	get_package.short_description = 'Package Name'
+	# def get_package(self, obj):
+	# 	return obj.packageName
+	# get_package.short_description = 'Package Name'
+	pass
 
 admin.site.register(Marketing,MarketingAdmin)
 

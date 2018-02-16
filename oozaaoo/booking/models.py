@@ -19,7 +19,7 @@ class Booking(AbstractDefault):
 	no_of_children = models.IntegerField(verbose_name = 'No. of Children')
 	no_of_infant = models.IntegerField(verbose_name = 'No. of Infant')
 	total_person = models.IntegerField(verbose_name = 'Total Person')
-	package_cost = models.DecimalField(verbose_name = 'Package Cost (Adult)', max_digits = 10, decimal_places = 2) #Automatic generation
+	package_cost = models.DecimalField(verbose_name = 'Package Cost', max_digits = 10, decimal_places = 2) #Automatic generation
 	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2) #Automatic generation
 	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2) #Automatic generation
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2) #Automatic generation
@@ -31,6 +31,17 @@ class Booking(AbstractDefault):
 	booking_confirmation_status = models.BooleanField(verbose_name ='Booking Team Confirmation status', default = False)
 	coordination_confirmation_status = models.BooleanField(verbose_name ='Co-ordination Team Confirmation status', default = False)
 	finance_confirmation_status = models.BooleanField(verbose_name ='Finance Team Confirmation status', default = False)
+
+	def save(self, *args, **kw):
+		# Saving the no. of days automatically from departure_date and arrival_date
+		days_diff = self.arrival_date - self.departure_date
+		diff = int(days_diff.days)
+		self.no_of_days = diff
+		# Saving the no. of person automatically by counting adult, children and infant
+		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
+		# Saving the total cost from package cost and discount
+		self.total_cost = self.package_cost - self.discount
+		super( Booking, self ).save( *args, **kw )	
 
 	def __str__(self):
 		return self.booking_id

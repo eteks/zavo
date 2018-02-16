@@ -4,9 +4,9 @@ from django.utils.functional import lazy
 from django.db import models
 from customer.models import Customer
 from master.models import *
+from booking.models import Booking
+import datetime
 from django.db.models.signals import post_save
-from datetime import datetime
-# import datetime
 
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
@@ -65,14 +65,32 @@ class Marketing(AbstractDefault):
 	remarks = models.TextField(verbose_name = "Notes, if any")
 	marketing_confirmation_status = models.BooleanField(verbose_name ='Martketing Team Confirmation status', default = False)
 
-	def save(self, *args, **kw):
+	def __str__(self):
+		return unicode(self.id)
+
+	def save(self, *args, **kwargs):
 		# Saving the no. of days automatically from departure_date and arrival_date
 		days_diff = self.arrival_date - self.departure_date
 		diff = int(days_diff.days)
 		self.no_of_days = diff
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
-		super( Marketing, self ).save( *args, **kw )	
 
-	def __str__(self):
-		return unicode(self.id)
+		if(self.marketing_confirmation_status):
+			b = Booking.objects.filter(created_date__startswith = datetime.date.today()).count()
+			if(self.created_date.month >= 10):
+				month = str(self.created_date.month)
+			else:
+				month = '0' + str(self.created_date.month)
+			if(self.created_date.day >= 10):
+				day = str(self.created_date.day)
+			else:
+				day = '0' + str(self.created_date.day)
+			book = Booking(customer = self.customer, remarks = self.remarks, departure_date = self.departure_date, arrival_date = self.arrival_date, no_of_days = self.no_of_days, 
+				no_of_nights = self.no_of_nights, no_of_adult = self.no_of_adult, no_of_infant = self.no_of_infant, no_of_children = self.no_of_children, total_person = self.total_person,
+				booking_id = 'BOOKID' + '_' + unicode(day +  month + str(self.created_date.year)) + '_' + str(b+1))
+			# myMovieGenre = Movie_Info_genre.objects.create(genre='horror')
+			# accomodation = AccomodationStar.objects.create(accomodation_star = )
+			book.save()
+
+		super(Marketing, self).save(*args, **kwargs)

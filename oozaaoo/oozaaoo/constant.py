@@ -6,3 +6,4 @@ USER_TYPE = (
     ('Co-ordination','Co-ordination'),
     ('Finance','Finance')
 )
+

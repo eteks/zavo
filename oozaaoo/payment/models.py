@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from master.models import *
 
 # Create your models here.
 class Payment(AbstractDefault):
@@ -14,3 +15,7 @@ class Payment(AbstractDefault):
 
 	def __str__(self):
 		return self.id
+
+	def save(self, *args, **kwargs):
+		paid =  Booking.objects.filter(booking_id = self.booking_id)
+		super(Marketing, self).save(*args, **kwargs)

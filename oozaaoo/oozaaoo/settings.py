@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
 '10.0.0.16',
 '10.0.0.11',
-'10.0.0.6',
+'10.0.0.8',
 '10.0.0.9',
 '18.216.95.20',
 '127.0.0.1',
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'customer',
     'marketing',
+    'payment'
 ]
 
 MIDDLEWARE = [

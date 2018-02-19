@@ -5,6 +5,7 @@ from django.db import models
 from tourpackage.models import Tourpackage
 from customer.models import Customer
 from master.models import *
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Booking(AbstractDefault):
@@ -23,14 +24,21 @@ class Booking(AbstractDefault):
 	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
-	accomodation = models.ManyToManyField(AccomodationStar, verbose_name = 'Accomodation Type and Star',default = 0)
-	mode_of_transport = models.ManyToManyField(TransportType, verbose_name = 'Mode of Transport and Type',default = 0)
+	accomodation = models.ManyToManyField(AccomodationStar, verbose_name = 'Accomodation Type and Star')
+	mode_of_transport = models.ManyToManyField(TransportType, verbose_name = 'Mode of Transport and Type')
 	mealplan = models.CharField(verbose_name = 'Meal Plan', max_length = 100,choices=MEAL_PLAN,default = 0) #Multiple select in checkboxes
 	mealPlan_type = models.CharField(verbose_name = 'Meal Plan Type', max_length = 100,choices=MEAL_PLAN_TYPE,default = 0) #Multiple select in checkboxes
 	remarks = models.TextField(verbose_name = "Notes, if any")
 	booking_confirmation_status = models.BooleanField(verbose_name ='Booking Team Confirmation status', default = False)
 	coordination_confirmation_status = models.BooleanField(verbose_name ='Co-ordination Team Confirmation status', default = False)
 	finance_confirmation_status = models.BooleanField(verbose_name ='Finance Team Confirmation status', default = False)
+
+	def clean(self):
+		days_diff = self.arrival_date - self.departure_date
+		diff = int(days_diff.days)
+		# Don't allow draft entries to have a pub_date.
+		if diff < 0:
+			raise ValidationError("Arrival date should be higher than departure date")
 
 	def save(self, *args, **kw):
 		# Saving the no. of days automatically from departure_date and arrival_date

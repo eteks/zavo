@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'oozaaoo', 
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -123,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
+SITE_URL='http://127.0.0.1:8000/'
 
 LANGUAGE_CODE = 'en-us'
 
@@ -134,7 +135,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+MAX_UPLOAD_SIZE = 2621440
+IMAGE_TYPES = ['.jpg','.png','.jpeg']
+DOCUMENT_TYPES=['.doc', '.docx', '.pdf']
+IMAGES_ROOT='media/images/'
+DOCUMENT_ROOT='media/document/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = 'static'

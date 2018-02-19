@@ -9,6 +9,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 # Register your models here.
 class BookingAdmin(admin.ModelAdmin):
 	model = Booking
+
 	# list_display = ('get_package','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','notes')
 	# form = MarketingForm
 
@@ -16,6 +17,9 @@ class BookingAdmin(admin.ModelAdmin):
 	# 	return obj.packageName
 	# get_package.short_description = 'Package Name'
 	# pass
+	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
 	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),
@@ -30,6 +34,8 @@ class BookingAdmin(admin.ModelAdmin):
 	# model = Booking
 	# list_display = ('package_Name','contactAddress','contactMobile','contactMail','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','accomodationType','accomodationStar','modeOfTransport','notes','mealPlan','modePayment')
 	# form = BookingForm
+	def has_add_permission(self, request):
+		return False
 
 class CoordinationAdmin(admin.ModelAdmin):
 	model = Coordination

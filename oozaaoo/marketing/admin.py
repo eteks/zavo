@@ -11,9 +11,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 # Register your models here.
 class MarketingAdmin(admin.ModelAdmin):
 	model = Marketing
-	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
-	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	# list_display = ('get_package','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','notes')
 	# form = MarketingForm
 
 	# def get_package(self, obj):

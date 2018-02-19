@@ -75,7 +75,7 @@ class Marketing(AbstractDefault):
 		self.no_of_days = diff
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
-
+		print self.accomodation
 		if(self.marketing_confirmation_status):
 			b = Booking.objects.filter(created_date__startswith = datetime.date.today()).count()
 			if(self.created_date.month >= 10):

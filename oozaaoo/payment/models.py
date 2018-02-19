@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from booking.models import Booking
 from master.models import *
 
 # Create your models here.
@@ -14,8 +15,9 @@ class Payment(AbstractDefault):
 	remarks = models.TextField(verbose_name = "Notes, if any")
 
 	def __str__(self):
-		return self.id
+		return self.booking_id
 
 	def save(self, *args, **kwargs):
-		paid =  Booking.objects.filter(booking_id = self.booking_id)
-		super(Marketing, self).save(*args, **kwargs)
+		paid = Booking.objects.values('paid_amount').filter(booking_id = self.booking_id).get()
+		paying =  Booking.objects.filter(booking_id = self.booking_id).update(paid_amount = paid['paid_amount'] + self.amount_paying)
+		super(Payment, self).save(*args, **kwargs)

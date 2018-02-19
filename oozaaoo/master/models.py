@@ -41,9 +41,11 @@ class AccomodationStar(AbstractDefault):
 	accomodation_star = models.CharField(verbose_name = 'Accomodation in Star Hotel', max_length = 50)
 	accomodation_type = models.ManyToManyField(AccomodationType, verbose_name = 'Accomodation Type')
 
-
-	def __str__(self):
-		return self.accomodation_star
+	# def __str__(self):
+	# 	accomo = self.accomodation_star + self.accomodation_type
+	# 	return unicode(accomo)
+	def __unicode__(self):
+		return unicode(self.accomodation_type)
 
 class ModeOfTransport(AbstractDefault):
 	transport_mode = models.CharField(verbose_name = "Mode of Transport Type", max_length = 50)

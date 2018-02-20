@@ -17,8 +17,8 @@ class BookingAdmin(admin.ModelAdmin):
 	# 	return obj.packageName
 	# get_package.short_description = 'Package Name'
 	# pass
-	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
 	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
 	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (

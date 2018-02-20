@@ -1,5 +1,7 @@
 pip install Django==1.11.7
 python - 2.7.12
+pip install MySQL-python==1.2.3
+pip install Pillow==4.3.0
 
 Install Django-jet:
 pip install django-jet

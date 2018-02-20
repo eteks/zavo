@@ -82,7 +82,11 @@ class Marketing(AbstractDefault):
 		self.no_of_days = diff
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
-		print self.accomodation
+
+		if self.pk is not None and self.marketing_confirmation_status:
+			print "update_form"
+			
+		# print self.accomodation
 		if(self.marketing_confirmation_status):
 			b = Booking.objects.filter(created_date__startswith = datetime.date.today()).count()
 			if(self.created_date.month >= 10):
@@ -99,5 +103,8 @@ class Marketing(AbstractDefault):
 			# myMovieGenre = Movie_Info_genre.objects.create(genre='horror')
 			# accomodation = AccomodationStar.objects.create(accomodation_star = )
 			book.save()
+			# for item in self.accomodation:
+			# 	book.accomodation.add(item)
 
 		super(Marketing, self).save(*args, **kwargs)
+

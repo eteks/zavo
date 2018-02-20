@@ -39,13 +39,21 @@ class AccomodationType(AbstractDefault):
 
 class AccomodationStar(AbstractDefault):
 	accomodation_star = models.CharField(verbose_name = 'Accomodation in Star Hotel', max_length = 50)
-	accomodation_type = models.ManyToManyField(AccomodationType, verbose_name = 'Accomodation Type')
+	accomodation_type = models.ManyToManyField(AccomodationType, verbose_name = 'Accomodation Type',through='AccomodationStarAndType')
 
 	# def __str__(self):
 	# 	accomo = self.accomodation_star + self.accomodation_type
 	# 	return unicode(accomo)
 	def __unicode__(self):
 		return unicode(self.accomodation_star)
+
+class AccomodationStarAndType(models.Model):
+    """A FamilyChild is the many-to-many intersection of Families and Children"""
+    accomodation_type = models.ForeignKey('AccomodationType')
+    accomodation_star = models.ForeignKey('AccomodationStar')
+
+    def __unicode__(self):
+		return unicode(self.id)
 
 class ModeOfTransport(AbstractDefault):
 	transport_mode = models.CharField(verbose_name = "Mode of Transport Type", max_length = 50)

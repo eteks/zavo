@@ -45,7 +45,7 @@ class AccomodationStar(AbstractDefault):
 	# 	accomo = self.accomodation_star + self.accomodation_type
 	# 	return unicode(accomo)
 	def __unicode__(self):
-		return unicode(self.accomodation_type)
+		return unicode(self.accomodation_star)
 
 class ModeOfTransport(AbstractDefault):
 	transport_mode = models.CharField(verbose_name = "Mode of Transport Type", max_length = 50)

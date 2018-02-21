@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from multiselectfield import MultiSelectField
 from django.db import models
 from tourpackage.models import Tourpackage
 from customer.models import Customer
@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 # Create your models here.
 class Booking(AbstractDefault):
 	customer = models.ForeignKey(Customer, verbose_name = 'Customer ID')
+	marketing_id = models.IntegerField(verbose_name = 'Marketing ID')
 	booking_id = models.CharField(verbose_name='Auto generated booking Id',max_length=500, null = True)
 	package = models.ForeignKey(Tourpackage,verbose_name = 'Package Name',max_length=50,related_name = 'package', null = True)	
 	departure_date = models.DateField(verbose_name = 'Date of Departure')
@@ -26,8 +27,8 @@ class Booking(AbstractDefault):
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	accomodation = models.ManyToManyField(AccomodationStar, verbose_name = 'Accomodation Type and Star')
 	mode_of_transport = models.ManyToManyField(TransportType, verbose_name = 'Mode of Transport and Type')
-	mealplan = models.CharField(verbose_name = 'Meal Plan', max_length = 100,choices=MEAL_PLAN,default = 0) #Multiple select in checkboxes
-	mealPlan_type = models.CharField(verbose_name = 'Meal Plan Type', max_length = 100,choices=MEAL_PLAN_TYPE,default = 0) #Multiple select in checkboxes
+	mealplan = MultiSelectField(verbose_name = 'Meal Plan', max_length = 100,choices=MEAL_PLAN,default = 0) #Multiple select in checkboxes
+	mealPlan_type = MultiSelectField(verbose_name = 'Meal Plan Type', max_length = 100,choices=MEAL_PLAN_TYPE,default = 0) #Multiple select in checkboxes
 	remarks = models.TextField(verbose_name = "Notes, if any")
 	booking_confirmation_status = models.BooleanField(verbose_name ='Booking Team Confirmation status', default = False)
 	coordination_confirmation_status = models.BooleanField(verbose_name ='Co-ordination Team Confirmation status', default = False)

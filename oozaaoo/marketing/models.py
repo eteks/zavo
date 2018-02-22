@@ -133,9 +133,9 @@ class Marketing(AbstractDefault):
 				book.save()
 				# mobile = Customer.objects.filter(id = self.customer_id).values('customer_mobile').get()
 				# print mobile
-				headers = {'Content-Type':'application/json'}
-				data = {'user':'VALLIK', 'pass':'abcd1234','sender':'VALLIK','phone':'9790022747','text':'Your requirements received! Our booking team will contact you soon.','priority':'ndnd','stype':'normal'}
-				r = requests.post('http://dnd.blackholesolution.com/api/sendmsg.php', headers=headers, params=data)
+				# headers = {'Content-Type':'application/json'}
+				# data = {'user':'VALLIK', 'pass':'abcd1234','sender':'VALLIK','phone':'9790022747','text':'Your requirements received! Our booking team will contact you soon.','priority':'ndnd','stype':'normal'}
+				# r = requests.post('http://dnd.blackholesolution.com/api/sendmsg.php', headers=headers, params=data)
 
 		super(Marketing, self).save(*args, **kwargs)
 

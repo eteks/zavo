@@ -33,6 +33,10 @@ class AccomodationStarAndTypeInline(admin.TabularInline):
 	# model = AccomodationType.accomodation_type.through
 	model = AccomodationStarAndType
 
+class TransportModeAndTypeInline(admin.TabularInline):
+	# model = AccomodationType.accomodation_type.through
+	model = TransportModeAndType
+
 class AccomodationTypeAdmin(admin.ModelAdmin):
 	pass
 
@@ -48,7 +52,12 @@ class ModeOfTransportAdmin(admin.ModelAdmin):
 	pass
 
 class TransportTypeAdmin(admin.ModelAdmin):
-	pass
+	fieldsets = (
+	(_('Customer Details'), {'fields': ['transport_type']}),
+	# (_('Status and Dates'), {'fields': ('accomodation_star')}),
+	)
+
+	inlines = [TransportModeAndTypeInline]
 
 # class AccomodationStarAndTypeAdmin(admin.ModelAdmin):
 # 	pass

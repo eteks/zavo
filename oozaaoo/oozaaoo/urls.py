@@ -17,12 +17,17 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.conf.urls.static import static,serve
 from django.conf import settings
+from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
 	# url(r'^jet/', include('jet.urls', 'jet')),
 	# url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^admin/', admin.site.urls),
     url(r'^', admin.site.urls),
+    url(r'^total_amount_generation/$', csrf_exempt(views.total_amount_generation)),
+    # url(r'^total_amount_generation/$', 'master.views.total_amount_generation','total_amount_generation'),
+    # url(r'^total_amount_generation/', include('master.urls', 'total_amount_generation')),
 ]
 if settings.DEBUG:
     urlpatterns += [

@@ -7,7 +7,11 @@ from master.models import *
 from booking.models import Booking
 import datetime
 from django.db.models.signals import post_save
-
+# from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+from django.conf import settings
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -84,7 +88,25 @@ class Marketing(AbstractDefault):
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
 
 		if self.pk is not None and self.marketing_confirmation_status:
-			print "update_form"
+			# print "update_form"
+			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+			# plaintext = get_template('email.txt')
+			htmly=get_template('email.html')
+
+			d = Context({ 'username': self.customer.customer_name })	
+			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+			text_content = "Oozaaoo Marketing Status"
+			html_content = htmly.render(d)
+			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			msg.attach_alternative(html_content, "text/html")
+			msg.send()
+			# subject, from_email, to = 'hello', 'kalaimca.gs@gmail.com', 'anand@etekchnoservices.com'
+			# text_content = 'This is an important message.'
+			# html_content = '<p>This is an <strong>important</strong> message.</p>'
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
+
 			
 		# print self.accomodation
 		if(self.marketing_confirmation_status):

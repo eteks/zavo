@@ -135,11 +135,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-MAX_UPLOAD_SIZE = 2621440
-IMAGE_TYPES = ['.jpg','.png','.jpeg']
-DOCUMENT_TYPES=['.doc', '.docx', '.pdf']
-IMAGES_ROOT='media/images/'
-DOCUMENT_ROOT='media/document/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = 'static'
@@ -157,3 +153,16 @@ STATICFILES_DIRS = (
 #     'django.contrib.staticfiles.finders.FileSystemFinder',
 #     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 # )
+# Document types and size settings
+MAX_UPLOAD_SIZE = 2621440
+IMAGE_TYPES = ['.jpg','.png','.jpeg']
+DOCUMENT_TYPES=['.doc', '.docx', '.pdf']
+IMAGES_ROOT='media/images/'
+DOCUMENT_ROOT='media/document/'
+
+# Email configuration settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kalaimca.gs@gmail.com'
+EMAIL_HOST_PASSWORD = 'kalai123'
+EMAIL_PORT = 587

@@ -16,5 +16,3 @@ class Customer(AbstractDefault):
 	
 	def __str__(self):
 		return self.customer_name
-
-

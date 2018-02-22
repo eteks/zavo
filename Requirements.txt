@@ -19,4 +19,4 @@ python manage.py runserver
 
 Others:
 pip install django-multiselectfield
-
+sudo pip install requests

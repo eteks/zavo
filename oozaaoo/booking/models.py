@@ -25,8 +25,8 @@ class Booking(AbstractDefault):
 	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
-	accomodation = models.ManyToManyField(AccomodationStar, verbose_name = 'Accomodation Type and Star')
-	mode_of_transport = models.ManyToManyField(TransportType, verbose_name = 'Mode of Transport and Type')
+	accomodation = models.ManyToManyField(AccomodationStarAndType, verbose_name = 'Accomodation Type and Star')
+	mode_of_transport = models.ManyToManyField(TransportModeAndType, verbose_name = 'Mode of Transport and Type')
 	mealplan = MultiSelectField(verbose_name = 'Meal Plan', max_length = 100,choices=MEAL_PLAN,default = 0) #Multiple select in checkboxes
 	mealPlan_type = MultiSelectField(verbose_name = 'Meal Plan Type', max_length = 100,choices=MEAL_PLAN_TYPE,default = 0) #Multiple select in checkboxes
 	remarks = models.TextField(verbose_name = "Notes, if any")

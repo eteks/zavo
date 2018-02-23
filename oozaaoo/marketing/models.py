@@ -13,6 +13,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
+from django.core.exceptions import ValidationError
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -95,7 +96,7 @@ class Marketing(AbstractDefault):
 			htmly=get_template('email.html')
 
 			d = Context({ 'username': self.customer.customer_name })	
-			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 			text_content = "Oozaaoo Marketing Status"
 			html_content = htmly.render(d)
 			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])

@@ -50,6 +50,21 @@ class Booking(AbstractDefault):
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
 		# Saving the total cost from package cost and discount
 		self.total_cost = self.package_cost - self.discount
+		
+		# if self.pk is not None and self.booking_confirmation_status:
+		# 	# print "update_form"
+		# 	# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+		# 	# plaintext = get_template('email.txt')
+		# 	htmly=get_template('email.html')
+
+		# 	d = Context({ 'username': self.customer.customer_name })	
+		# 	subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+		# 	text_content = "Oozaaoo Marketing Status"
+		# 	html_content = htmly.render(d)
+		# 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+		# 	msg.attach_alternative(html_content, "text/html")
+		# 	msg.send()
+
 		super( Booking, self ).save( *args, **kw )	
 
 	def __str__(self):

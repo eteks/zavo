@@ -39,6 +39,19 @@ class BookingAdmin(admin.ModelAdmin):
 
 class CoordinationAdmin(admin.ModelAdmin):
 	model = Coordination
+	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
+	fieldsets = (
+        (_('Customer Details'), {'fields': ['customer','booking_id']}),
+        (_('Packages'), {'fields': ('package', 'departure_date', 'arrival_date','no_of_days','no_of_nights',
+        	'no_of_adult','no_of_children','no_of_infant','total_person')}),
+        (_('Cost Details'), {'fields': ('package_cost', 'discount', 'total_cost','paid_amount')}),
+        (_('Accomodation & Other Details'), {'fields': ('accomodation', 'mode_of_transport', 'mealplan','mealPlan_type',
+        	'remarks')}),
+        (_('Status and Dates'), {'fields': ('booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status', 'active_status','delete_status','created_date','modified_date')}),
+    )
 
 	def get_queryset(self, request):
 		qs = super(CoordinationAdmin, self).get_queryset(request)
@@ -46,6 +59,19 @@ class CoordinationAdmin(admin.ModelAdmin):
 
 class FinanceAdmin(admin.ModelAdmin):
 	model = Finance
+	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
+	fieldsets = (
+        (_('Customer Details'), {'fields': ['customer','booking_id']}),
+        (_('Packages'), {'fields': ('package', 'departure_date', 'arrival_date','no_of_days','no_of_nights',
+        	'no_of_adult','no_of_children','no_of_infant','total_person')}),
+        (_('Cost Details'), {'fields': ('package_cost', 'discount', 'total_cost','paid_amount')}),
+        (_('Accomodation & Other Details'), {'fields': ('accomodation', 'mode_of_transport', 'mealplan','mealPlan_type',
+        	'remarks')}),
+        (_('Status and Dates'), {'fields': ('booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status', 'active_status','delete_status','created_date','modified_date')}),
+    )
 
 	def get_queryset(self, request):
 		qs = super(FinanceAdmin, self).get_queryset(request)

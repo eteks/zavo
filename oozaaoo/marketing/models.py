@@ -14,6 +14,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
+from master.action import send_sms
 
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
@@ -90,7 +91,15 @@ class Marketing(AbstractDefault):
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
 
-		if self.pk is not None and self.marketing_confirmation_status:
+		message_text = "marketing_confirmation_status"
+		if self.pk:
+			old_object = Marketing.objects.get(id=self.pk)
+			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
+				# print "sending_sms_and_email_edit"
+				# SMS CODE
+				send_sms(self.customer.customer_mobile,message_text)
+
+		if self.pk is None and self.marketing_confirmation_status:
 			# print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
@@ -109,6 +118,9 @@ class Marketing(AbstractDefault):
 			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 			# msg.attach_alternative(html_content, "text/html")
 			# msg.send()
+
+			# SMS CODE
+			send_sms(self.customer.customer_mobile,message_text)
 
 			
 		# print self.accomodation

@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'oozaaoo', 
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -166,3 +166,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'kalaimca.gs@gmail.com'
 EMAIL_HOST_PASSWORD = 'kalai123'
 EMAIL_PORT = 587
+
+# SMS Configuration settings
+SMS_USER = 'VALLIK'
+SMS_PASSWORD = 'abcd1234'
+SMS_SENDER = 'VALLIK'
+SMS_PRIORITY = 'ndnd'
+SMS_STYPE = 'normal'

@@ -14,7 +14,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
-
+from django.core.exceptions import ValidationError
+from master.action import send_sms
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -89,7 +90,6 @@ class Marketing(AbstractDefault):
 		self.no_of_days = diff
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
-
 		# if self.pk is not None and self.marketing_confirmation_status:
 		# 	# print "update_form"
 		# 	# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
@@ -110,6 +110,38 @@ class Marketing(AbstractDefault):
 		# 	# msg.attach_alternative(html_content, "text/html")
 		# 	# msg.send()
 
+		message_text = "marketing_confirmation_status"
+		if self.pk:
+			old_object = Marketing.objects.get(id=self.pk)
+			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
+				# print "sending_sms_and_email_edit"
+				# SMS CODE
+				send_sms(self.customer.customer_mobile,message_text)
+
+		if self.pk is None and self.marketing_confirmation_status:
+			# print "update_form"
+			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+			# plaintext = get_template('email.txt')
+			htmly=get_template('email.html')
+
+			d = Context({ 'username': self.customer.customer_name })	
+			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+			text_content = "Oozaaoo Marketing Status"
+			html_content = htmly.render(d)
+			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			msg.attach_alternative(html_content, "text/html")
+			msg.send()
+			# subject, from_email, to = 'hello', 'kalaimca.gs@gmail.com', 'anand@etekchnoservices.com'
+			# text_content = 'This is an important message.'
+			# html_content = '<p>This is an <strong>important</strong> message.</p>'
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
+
+			# SMS CODE
+			send_sms(self.customer.customer_mobile,message_text)
+
+			
 		# print self.accomodation
 		if(self.marketing_confirmation_status):
 			b = Booking.objects.filter(created_date__startswith = datetime.date.today()).count()
@@ -134,9 +166,9 @@ class Marketing(AbstractDefault):
 				book.save()
 				# mobile = Customer.objects.filter(id = self.customer_id).values('customer_mobile').get()
 				# print mobile
-				headers = {'Content-Type':'application/json'}
-				data = {'user':'VALLIK', 'pass':'abcd1234','sender':'VALLIK','phone':'9790022747','text':'Your requirements received! Our booking team will contact you soon.','priority':'ndnd','stype':'normal'}
-				r = requests.post('http://dnd.blackholesolution.com/api/sendmsg.php', headers=headers, params=data)
+				# headers = {'Content-Type':'application/json'}
+				# data = {'user':'VALLIK', 'pass':'abcd1234','sender':'VALLIK','phone':'9790022747','text':'Your requirements received! Our booking team will contact you soon.','priority':'ndnd','stype':'normal'}
+				# r = requests.post('http://dnd.blackholesolution.com/api/sendmsg.php', headers=headers, params=data)
 
 		super(Marketing, self).save(*args, **kwargs)
 

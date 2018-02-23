@@ -8,12 +8,14 @@ from booking.models import Booking
 from multiselectfield import MultiSelectField
 import datetime
 from django.db.models.signals import post_save
+import requests
 # from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from master.action import send_sms
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -89,7 +91,15 @@ class Marketing(AbstractDefault):
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
 
-		if self.pk is not None and self.marketing_confirmation_status:
+		message_text = "marketing_confirmation_status"
+		if self.pk:
+			old_object = Marketing.objects.get(id=self.pk)
+			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
+				# print "sending_sms_and_email_edit"
+				# SMS CODE
+				send_sms(self.customer.customer_mobile,message_text)
+
+		if self.pk is None and self.marketing_confirmation_status:
 			# print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
@@ -109,6 +119,9 @@ class Marketing(AbstractDefault):
 			# msg.attach_alternative(html_content, "text/html")
 			# msg.send()
 
+			# SMS CODE
+			send_sms(self.customer.customer_mobile,message_text)
+
 			
 		# print self.accomodation
 		if(self.marketing_confirmation_status):
@@ -123,17 +136,18 @@ class Marketing(AbstractDefault):
 			else:
 				day = '0' + str(self.created_date.day)
 			if self.pk is not None:
-				print 'if_condition'
-				print self.pk
 				Booking.objects.filter(marketing_id = self.pk).update(customer = self.customer, remarks = self.remarks, departure_date = self.departure_date, arrival_date = self.arrival_date, no_of_days = self.no_of_days, 
 					no_of_nights = self.no_of_nights, no_of_adult = self.no_of_adult, no_of_infant = self.no_of_infant, no_of_children = self.no_of_children, total_person = self.total_person, mealplan = self.mealplan, mealPlan_type = self.mealPlan_type)
 			else:
-				print 'else_condition'
-				print unicode(self.pk)
 				book = Booking(marketing_id = count + 1, customer = self.customer, remarks = self.remarks, departure_date = self.departure_date, arrival_date = self.arrival_date, no_of_days = self.no_of_days, 
 					no_of_nights = self.no_of_nights, no_of_adult = self.no_of_adult, no_of_infant = self.no_of_infant, no_of_children = self.no_of_children, total_person = self.total_person,mealplan = self.mealplan, mealPlan_type = self.mealPlan_type,
 					booking_id = 'BOOKID' + '_' + unicode(day +  month + str(self.created_date.year)) + '_' + str(b+1))
 				book.save()
+				# mobile = Customer.objects.filter(id = self.customer_id).values('customer_mobile').get()
+				# print mobile
+				# headers = {'Content-Type':'application/json'}
+				# data = {'user':'VALLIK', 'pass':'abcd1234','sender':'VALLIK','phone':'9790022747','text':'Your requirements received! Our booking team will contact you soon.','priority':'ndnd','stype':'normal'}
+				# r = requests.post('http://dnd.blackholesolution.com/api/sendmsg.php', headers=headers, params=data)
 
 		super(Marketing, self).save(*args, **kwargs)
 

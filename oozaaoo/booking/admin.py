@@ -18,8 +18,7 @@ class BookingAdmin(admin.ModelAdmin):
 	# get_package.short_description = 'Package Name'
 	# pass
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status','created_date','active_status')
 	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),
@@ -40,8 +39,7 @@ class BookingAdmin(admin.ModelAdmin):
 class CoordinationAdmin(admin.ModelAdmin):
 	model = Coordination
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status','created_date','active_status')
 	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),
@@ -60,8 +58,7 @@ class CoordinationAdmin(admin.ModelAdmin):
 class FinanceAdmin(admin.ModelAdmin):
 	model = Finance
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status','created_date','active_status')
 	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),

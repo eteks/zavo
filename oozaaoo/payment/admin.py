@@ -10,6 +10,8 @@ from forms import PaymentForm
 class PaymentAdmin(admin.ModelAdmin):
 	model = Payment
 	form = PaymentForm
+	list_display = ('booking_id','total_amount','amount_paying','balance_amount','payment_mode')
+	list_filter = ('booking_id','balance_amount','created_date','active_status')
 	# readonly_fields = ['total_amount','balance_amount','created_date','modified_date']
 	readonly_fields = ['created_date','modified_date']
 	fieldsets = (

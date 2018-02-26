@@ -5,10 +5,13 @@ from django.contrib import admin
 from models import Booking, Coordination, Finance
 # from forms import BookingForm
 from django.utils.translation import ugettext, ugettext_lazy as _
+from booking.forms import *
+
 
 # Register your models here.
 class BookingAdmin(admin.ModelAdmin):
 	model = Booking
+	form = BookingForm
 
 	# list_display = ('get_package','dateDeparture','dateArrival','duration','totalPersons','adultPersons','childPersons','infantPersons','notes')
 	# form = MarketingForm
@@ -20,7 +23,7 @@ class BookingAdmin(admin.ModelAdmin):
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
 	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
 	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
-	readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
+	# readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),
         (_('Packages'), {'fields': ('package', 'departure_date', 'arrival_date','no_of_days','no_of_nights',
@@ -36,6 +39,9 @@ class BookingAdmin(admin.ModelAdmin):
 	# form = BookingForm
 	def has_add_permission(self, request):
 		return False
+
+	class Media:
+		js = ('admin/js/jquery-1.11.3.min.js', 'admin/js/action.js')
 
 class CoordinationAdmin(admin.ModelAdmin):
 	model = Coordination

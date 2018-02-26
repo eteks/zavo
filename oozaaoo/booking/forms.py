@@ -2,6 +2,20 @@ from django import forms
 from booking.models import Booking
 from django.core.exceptions import ValidationError
 import datetime
+
+class BookingForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BookingForm, self).__init__(*args, **kwargs)
+        self.fields['package_cost'].widget.attrs['readonly'] = True
+        self.fields['no_of_days'].widget.attrs['readonly'] = True
+        self.fields['total_person'].widget.attrs['readonly'] = True
+        self.fields['paid_amount'].widget.attrs['readonly'] = True
+        self.fields['total_cost'].widget.attrs['readonly'] = True
+
+    class Meta():
+        model = Booking
+        fields = '__all__'
+
 # class BookingForm( forms.ModelForm ):
 # class BookingForm(forms.ModelForm):
 # 	class Meta:

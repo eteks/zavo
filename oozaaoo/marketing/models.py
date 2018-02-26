@@ -84,6 +84,7 @@ class Marketing(AbstractDefault):
 			raise ValidationError("Arrival date should be higher than departure date")
 
 	def save(self, *args, **kwargs):
+		print self.accomodation
 		# Saving the no. of days automatically from departure_date and arrival_date
 		days_diff = self.arrival_date - self.departure_date
 		diff = int(days_diff.days)

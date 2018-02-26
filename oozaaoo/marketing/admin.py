@@ -15,7 +15,6 @@ class MarketingAdmin(admin.ModelAdmin):
 	# form = MarketingForm
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
 	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
-	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
 	# def get_package(self, obj):
 	# 	return obj.packageName
 	# get_package.short_description = 'Package Name'

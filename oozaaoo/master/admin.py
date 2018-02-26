@@ -32,10 +32,12 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 class AccomodationStarAndTypeInline(admin.TabularInline):
 	# model = AccomodationType.accomodation_type.through
 	model = AccomodationStarAndType
+	extra = 1
 
 class TransportModeAndTypeInline(admin.TabularInline):
 	# model = AccomodationType.accomodation_type.through
 	model = TransportModeAndType
+	extra = 1
 
 class AccomodationTypeAdmin(admin.ModelAdmin):
 	pass
@@ -45,8 +47,8 @@ class AccomodationStarAdmin(admin.ModelAdmin):
 	(_('Customer Details'), {'fields': ['accomodation_star']}),
 	# (_('Status and Dates'), {'fields': ('accomodation_star')}),
 	)
-
-	inlines = [AccomodationStarAndTypeInline]
+	list_display = ('accomodation_star','active_status','created_date','modified_date','delete_status')
+	inlines = [AccomodationStarAndTypeInline,]
 
 class ModeOfTransportAdmin(admin.ModelAdmin):
 	pass
@@ -56,8 +58,9 @@ class TransportTypeAdmin(admin.ModelAdmin):
 	(_('Customer Details'), {'fields': ['transport_type']}),
 	# (_('Status and Dates'), {'fields': ('accomodation_star')}),
 	)
+	list_display = ('transport_type','created_date','modified_date','active_status','delete_status')
 
-	inlines = [TransportModeAndTypeInline]
+	inlines = [TransportModeAndTypeInline,]
 
 # class AccomodationStarAndTypeAdmin(admin.ModelAdmin):
 # 	pass

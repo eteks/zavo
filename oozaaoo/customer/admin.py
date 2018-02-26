@@ -6,6 +6,7 @@ class customerAdmin(admin.ModelAdmin):
 	model = Customer
 	list_display = ('customer_name','customer_mobile','customer_email','customer_address')
 	list_filter = ('created_date','active_status')
+	readonly_fields = ['created_date','modified_date']
 
 
 admin.site.register(Customer,customerAdmin)

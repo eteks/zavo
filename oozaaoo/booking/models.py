@@ -78,7 +78,7 @@ class Booking(AbstractDefault):
 				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 				# msg.attach_alternative(html_content, "text/html")
 				# msg.send()
-				send_sms(self.customer.customer_mobile,message_text)
+				# send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.booking_confirmation_status:
 			status='Oozaaoo Booking Status'
@@ -102,7 +102,7 @@ class Booking(AbstractDefault):
 			# msg.send()
 
 			# SMS CODE
-			send_sms(self.customer.customer_mobile,message_text)		
+			# send_sms(self.customer.customer_mobile,message_text)		
 
 		super( Booking, self ).save( *args, **kw )	
 

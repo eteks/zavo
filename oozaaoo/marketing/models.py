@@ -118,7 +118,7 @@ class Marketing(AbstractDefault):
 		if self.pk:
 			old_object = Marketing.objects.get(id=self.pk)
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
-				# print "sending_sms_and_email_edit"
+				print "sending_sms_and_email_edit"
 				# SMS CODE
 				# d = Context({ 'username': self.customer.customer_name })
 				# htmly=render_to_string('email.html',d)
@@ -128,10 +128,10 @@ class Marketing(AbstractDefault):
 				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 				# msg.attach_alternative(html_content, "text/html")
 				# msg.send()
-				send_sms(self.customer.customer_mobile,message_text)
+				# send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.marketing_confirmation_status:
-			# print "update_form"
+			print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
 			# d = Context({ 'username': self.customer.customer_name })
@@ -150,7 +150,7 @@ class Marketing(AbstractDefault):
 			# msg.send()
 
 			# SMS CODE
-			send_sms(self.customer.customer_mobile,message_text)
+			# send_sms(self.customer.customer_mobile,message_text)
 
 			
 		# print self.accomodation

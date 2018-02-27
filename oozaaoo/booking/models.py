@@ -70,14 +70,14 @@ class Booking(AbstractDefault):
 				# if self.pk is not None and self.finance_confirmation_status:
 				# 	status='Oozaaoo Finance Status'
 				# 	message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
-				d = Context({ 'username': self.customer.customer_name,'message':message })
-				htmly=render_to_string('email.html',d)
-				subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
-				text_content = status
-				html_content = htmly
-				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-				msg.attach_alternative(html_content, "text/html")
-				msg.send()
+				# d = Context({ 'username': self.customer.customer_name,'message':message })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+				# text_content = status
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
 				send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.booking_confirmation_status:
@@ -92,14 +92,14 @@ class Booking(AbstractDefault):
 				# if self.pk is not None and self.finance_confirmation_status:
 				# 	status='Oozaaoo Finance Status'
 				# 	message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
-			d = Context({ 'username': self.customer.customer_name,'message':message })
-			htmly=render_to_string('email.html',d)
-			subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
-			text_content = status
-			html_content = htmly
-			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-			msg.attach_alternative(html_content, "text/html")
-			msg.send()
+			# d = Context({ 'username': self.customer.customer_name,'message':message })
+			# htmly=render_to_string('email.html',d)
+			# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = status
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
 
 			# SMS CODE
 			send_sms(self.customer.customer_mobile,message_text)		
@@ -116,28 +116,28 @@ class Coordination(Booking):
 			if self.coordination_confirmation_status and old_object.coordination_confirmation_status==0:
 				status='Oozaaoo Tour Plan Status'
 				message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
-				d = Context({ 'username': self.customer.customer_name,'message':message })
-				htmly=render_to_string('email.html',d)
-				subject, from_email, to = status, settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
-				text_content = status
-				html_content = htmly
-				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-				msg.attach_alternative(html_content, "text/html")
-				msg.send()
+				# d = Context({ 'username': self.customer.customer_name,'message':message })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = status, settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+				# text_content = status
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
 				# SMS CODE
 				# send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.coordination_confirmation_status:
 			status='Oozaaoo Tour Plan Status'
 			message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
-			d = Context({ 'username': self.customer.customer_name,'message':message })
-			htmly=render_to_string('email.html',d)
-			subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
-			text_content = status
-			html_content = htmly
-			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-			msg.attach_alternative(html_content, "text/html")
-			msg.send()
+			# d = Context({ 'username': self.customer.customer_name,'message':message })
+			# htmly=render_to_string('email.html',d)
+			# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = status
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
 			# SMS CODE
 			# send_sms(self.customer.customer_mobile,message_text)	
 		super( Coordination, self ).save( *args, **kw )

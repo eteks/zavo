@@ -120,28 +120,28 @@ class Marketing(AbstractDefault):
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
 				# print "sending_sms_and_email_edit"
 				# SMS CODE
-				d = Context({ 'username': self.customer.customer_name })
-				htmly=render_to_string('email.html',d)
-				subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
-				text_content = "Oozaaoo Marketing Status"
-				html_content = htmly
-				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-				msg.attach_alternative(html_content, "text/html")
-				msg.send()
+				# d = Context({ 'username': self.customer.customer_name })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+				# text_content = "Oozaaoo Marketing Status"
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
 				send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.marketing_confirmation_status:
 			# print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
-			d = Context({ 'username': self.customer.customer_name })
-			htmly=render_to_string('email.html',d)	
-			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
-			text_content = "Oozaaoo Marketing Status"
-			html_content = htmly
-			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-			msg.attach_alternative(html_content, "text/html")
-			msg.send()
+			# d = Context({ 'username': self.customer.customer_name })
+			# htmly=render_to_string('email.html',d)	
+			# subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = "Oozaaoo Marketing Status"
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
 			# subject, from_email, to = 'hello', 'kalaimca.gs@gmail.com', 'anand@etekchnoservices.com'
 			# text_content = 'This is an important message.'
 			# html_content = '<p>This is an <strong>important</strong> message.</p>'

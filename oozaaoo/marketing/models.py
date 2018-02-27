@@ -120,7 +120,7 @@ class Marketing(AbstractDefault):
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
 				# print "sending_sms_and_email_edit"
 				# SMS CODE
-				d = Context({ 'username': self.customer.customer_name,'message':message })
+				d = Context({ 'username': self.customer.customer_name })
 				htmly=render_to_string('email.html',d)
 				subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 				text_content = "Oozaaoo Marketing Status"
@@ -134,7 +134,7 @@ class Marketing(AbstractDefault):
 			# print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
-			d = Context({ 'username': self.customer.customer_name,'message':message })
+			d = Context({ 'username': self.customer.customer_name })
 			htmly=render_to_string('email.html',d)	
 			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 			text_content = "Oozaaoo Marketing Status"

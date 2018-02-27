@@ -124,7 +124,7 @@ class Marketing(AbstractDefault):
 				htmly=render_to_string('email.html',d)
 				subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 				text_content = "Oozaaoo Marketing Status"
-				html_content = htmly.render(d)
+				html_content = htmly
 				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 				msg.attach_alternative(html_content, "text/html")
 				msg.send()
@@ -138,7 +138,7 @@ class Marketing(AbstractDefault):
 			htmly=render_to_string('email.html',d)	
 			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 			text_content = "Oozaaoo Marketing Status"
-			html_content = htmly.render(d)
+			html_content = htmly
 			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 			msg.attach_alternative(html_content, "text/html")
 			msg.send()

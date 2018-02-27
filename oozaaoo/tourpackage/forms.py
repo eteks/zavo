@@ -8,6 +8,7 @@ def validate_image(package_photos):
 	file_size = package_photos._size
 	ext = os.path.splitext(package_photos.name)[1]
 	valid_extensions = settings.IMAGE_TYPES
+	# print valid_extensions
 	if not ext.lower() in valid_extensions:
 		raise ValidationError('Supports Only jpg/png/jpeg format.')
 	if file_size > settings.MAX_UPLOAD_SIZE:

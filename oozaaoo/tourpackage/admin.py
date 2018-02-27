@@ -16,8 +16,8 @@ def handle_uploaded_file(f):
 class TourpackageAdmin(admin.ModelAdmin):
 	model = Tourpackage
 	form = TourFileForm
-	fields = ('active_status','delete_status','package_name','package_description','package_location','package_photos','gal_image','package_document','no_of_days','no_of_nights','adult_cost','children_cost','infant_cost')
-	readonly_fields = ['gal_image']
+	fields = ('active_status','delete_status','package_name','package_description','package_location','package_photos','gal_image','package_document','no_of_days','no_of_nights','adult_cost','children_cost','infant_cost','created_date','modified_date')
+	readonly_fields = ['gal_image','created_date','modified_date']
 	list_display = ('package_name','package_location','no_of_days','no_of_nights','adult_cost','children_cost','infant_cost')
 	list_filter = ('package_name','package_location','no_of_days','no_of_nights',)
 	search_fields = ('package_name','package_location','no_of_days','no_of_nights',)

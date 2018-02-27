@@ -32,13 +32,13 @@ class AbstractDefault(models.Model):
 		abstract = True
 
 class AccomodationType(AbstractDefault):
-	accomodation_type = models.CharField(verbose_name = 'Accomodation Type', max_length = 50)
+	accomodation_type = models.CharField(verbose_name = 'Accomodation Type',unique=True, max_length = 50)
 
 	def __str__(self):
 		return self.accomodation_type
 
 class AccomodationStar(AbstractDefault):
-	accomodation_star = models.CharField(verbose_name = 'Accomodation in Star Hotel', max_length = 50)
+	accomodation_star = models.CharField(verbose_name = 'Accomodation in Star Hotel',unique=True, max_length = 50)
 	accomodation_type = models.ManyToManyField(AccomodationType, verbose_name = 'Accomodation Type',through='AccomodationStarAndType')
 
 	# def __str__(self):
@@ -56,7 +56,7 @@ class AccomodationStarAndType(AbstractDefault):
 		return '%s - %s' % (self.accomodation_star, self.accomodation_type)
 
 class ModeOfTransport(AbstractDefault):
-	transport_mode = models.CharField(verbose_name = "Mode of Transport Type", max_length = 50)
+	transport_mode = models.CharField(verbose_name = "Mode of Transport Type",unique=True, max_length = 50)
 
 	def __str__(self):
 		return self.transport_mode

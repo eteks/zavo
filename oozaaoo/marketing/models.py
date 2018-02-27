@@ -56,7 +56,7 @@ from master.action import send_sms
 # 	)
 
 class Marketing(AbstractDefault):
-	customer = models.ForeignKey(Customer, verbose_name = 'Customer ID')
+	customer = models.ForeignKey(Customer, verbose_name = 'Customer Name')
 	places_to_visit = models.CharField(verbose_name = 'Places to Visit',max_length=255)
 	departure_date = models.DateField(verbose_name = 'Date of Departure')
 	arrival_date = models.DateField(verbose_name = 'Date of Arrival')
@@ -97,6 +97,15 @@ class Marketing(AbstractDefault):
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
 				# print "sending_sms_and_email_edit"
 				# SMS CODE
+				htmly=get_template('market_email.html')
+
+				d = Context({ 'username': self.customer.customer_name })	
+				subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+				text_content = "Oozaaoo Marketing Status"
+				html_content = htmly.render(d)
+				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				msg.attach_alternative(html_content, "text/html")
+				msg.send()
 				send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.marketing_confirmation_status:

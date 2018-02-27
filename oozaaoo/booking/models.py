@@ -6,6 +6,10 @@ from tourpackage.models import Tourpackage
 from customer.models import Customer
 from master.models import *
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+from django.conf import settings
 
 # Create your models here.
 class Booking(AbstractDefault):
@@ -51,19 +55,29 @@ class Booking(AbstractDefault):
 		# Saving the total cost from package cost and discount
 		self.total_cost = self.package_cost - self.discount
 		
-		# if self.pk is not None and self.booking_confirmation_status:
-		# 	# print "update_form"
-		# 	# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
-		# 	# plaintext = get_template('email.txt')
-		# 	htmly=get_template('email.html')
+		if self.pk is not None and self.booking_confirmation_status:
 
-		# 	d = Context({ 'username': self.customer.customer_name })	
-		# 	subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
-		# 	text_content = "Oozaaoo Marketing Status"
-		# 	html_content = htmly.render(d)
-		# 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-		# 	msg.attach_alternative(html_content, "text/html")
-		# 	msg.send()
+			status='Oozaaoo Booking Status'
+			message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+			# print "update_form"
+			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+			if self.pk is not None and self.coordination_confirmation_status:
+				status='Oozaaoo Tour Plan Status'
+				message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
+			# plaintext = get_template('email.txt')
+				# if self.pk is not None and self.finance_confirmation_status:
+				# 	status='Oozaaoo Finance Status'
+				# 	message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+
+			htmly=get_template('email.html')
+
+			d = Context({ 'username': self.customer.customer_name,'message':message })
+			subject, from_email, to = status, settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+			text_content = status
+			html_content = htmly.render(d)
+			msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			msg.attach_alternative(html_content, "text/html")
+			msg.send()
 
 		super( Booking, self ).save( *args, **kw )	
 

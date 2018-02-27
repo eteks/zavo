@@ -17,6 +17,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from master.action import send_sms
 from django.template.loader import render_to_string
+from django.db.models.signals import post_save, m2m_changed
+from django.dispatch import receiver
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -85,7 +87,7 @@ class Marketing(AbstractDefault):
 			raise ValidationError("Arrival date should be higher than departure date")
 
 	def save(self, *args, **kwargs):
-		print self.accomodation
+		# print self.accomodation
 		# Saving the no. of days automatically from departure_date and arrival_date
 		days_diff = self.arrival_date - self.departure_date
 		diff = int(days_diff.days)
@@ -181,4 +183,17 @@ class Marketing(AbstractDefault):
 
 		super(Marketing, self).save(*args, **kwargs)
 
-
+@receiver(m2m_changed,sender=Marketing.accomodation.through)
+def post_save_marketing(sender, instance, action,**kwargs):
+	# print "post_save_marketing"
+	# print instance.accomodation
+	bookings = Booking.objects.get(marketing_id=instance.id)
+	filters = Marketing.objects.filter(accomodation__marketing=instance.id).values_list('accomodation')
+	# print int(list(filters))
+	acc = []
+	for i in list(filters):
+		test = [acc.append(int(j)) for j in list(i)]
+	print acc
+	# bookings.accomodation.remove()
+	for acc_data in acc:
+		bookings.accomodation.add(acc_data)

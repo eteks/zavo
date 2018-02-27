@@ -25,7 +25,7 @@ class Booking(AbstractDefault):
 	no_of_children = models.IntegerField(verbose_name = 'No. of Children')
 	no_of_infant = models.IntegerField(verbose_name = 'No. of Infant')
 	total_person = models.IntegerField(verbose_name = 'Total Person')
-	package_cost = models.DecimalField(verbose_name = 'Package Cost', max_digits = 10, decimal_places = 2,default = 0 ) #Automatic generation
+	package_cost = models.DecimalField(verbose_name = 'Package Cost', max_digits = 10, decimal_places = 2,default = 0, help_text="Package cost will be generated automatically based on package selection" ) #Automatic generation
 	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation

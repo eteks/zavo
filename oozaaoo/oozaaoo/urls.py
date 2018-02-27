@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', admin.site.urls),
     url(r'^total_amount_generation/$', csrf_exempt(views.total_amount_generation)),
+    url(r'^get_package_details/$', csrf_exempt(views.get_package_details)),
+    url(r'^caculate_booking_cost/$', csrf_exempt(views.caculate_booking_cost)),
+    
     # url(r'^total_amount_generation/$', 'master.views.total_amount_generation','total_amount_generation'),
     # url(r'^total_amount_generation/', include('master.urls', 'total_amount_generation')),
 ]

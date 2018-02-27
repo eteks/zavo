@@ -47,10 +47,12 @@ class AccomodationStar(AbstractDefault):
 	def __unicode__(self):
 		return unicode(self.accomodation_star)
 
-class AccomodationStarAndType(AbstractDefault):
+class AccomodationStarAndType(models.Model):
     """A FamilyChild is the many-to-many intersection of Families and Children"""
     accomodation_type = models.ForeignKey('AccomodationType')
     accomodation_star = models.ForeignKey('AccomodationStar')
+    active_status = models.BooleanField(verbose_name = 'Active Status', default = False)
+    delete_status = models.BooleanField(verbose_name = 'Delete status', default = False)
 
     def __unicode__(self):
 		return '%s - %s' % (self.accomodation_star, self.accomodation_type)
@@ -68,10 +70,12 @@ class TransportType(AbstractDefault):
 	def __str__(self):
 		return self.transport_type
 
-class TransportModeAndType(AbstractDefault):
+class TransportModeAndType(models.Model):
     """A FamilyChild is the many-to-many intersection of Families and Children"""
     transportMode = models.ForeignKey('ModeOfTransport')
     transportType = models.ForeignKey('TransportType')
+    active_status = models.BooleanField(verbose_name = 'Active Status', default = False)
+    delete_status = models.BooleanField(verbose_name = 'Delete status', default = False)
 
     def __str__(self):
 		return '%s - %s' % (self.transportMode, self.transportType)

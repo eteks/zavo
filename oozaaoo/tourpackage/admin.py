@@ -19,8 +19,7 @@ class TourpackageAdmin(admin.ModelAdmin):
 	fields = ('active_status','delete_status','package_name','package_description','package_location','package_photos','gal_image','package_document','no_of_days','no_of_nights','adult_cost','children_cost','infant_cost','created_date','modified_date')
 	readonly_fields = ['gal_image','created_date','modified_date']
 	list_display = ('package_name','package_location','no_of_days','no_of_nights','adult_cost','children_cost','infant_cost')
-	list_filter = ('package_name','package_location','no_of_days','no_of_nights',)
-	search_fields = ('package_name','package_location','no_of_days','no_of_nights',)
+	list_filter = ('package_name','package_location','no_of_days','no_of_nights','created_date','active_status')
 
 	def save_model(self,request,obj,form,change,*args,**kwargs):
 		counts=len(request.FILES.getlist("package_photos"))

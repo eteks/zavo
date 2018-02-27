@@ -84,12 +84,32 @@ class Marketing(AbstractDefault):
 			raise ValidationError("Arrival date should be higher than departure date")
 
 	def save(self, *args, **kwargs):
+		print self.accomodation
 		# Saving the no. of days automatically from departure_date and arrival_date
 		days_diff = self.arrival_date - self.departure_date
 		diff = int(days_diff.days)
 		self.no_of_days = diff
 		# Saving the no. of person automatically by counting adult, children and infant
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
+		# if self.pk is not None and self.marketing_confirmation_status:
+		# 	# print "update_form"
+		# 	# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+		# 	# plaintext = get_template('email.txt')
+		# 	htmly=get_template('email.html')
+
+		# 	d = Context({ 'username': self.customer.customer_name })	
+		# 	subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+		# 	text_content = "Oozaaoo Marketing Status"
+		# 	html_content = htmly.render(d)
+		# 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+		# 	msg.attach_alternative(html_content, "text/html")
+		# 	msg.send()
+		# 	# subject, from_email, to = 'hello', 'kalaimca.gs@gmail.com', 'anand@etekchnoservices.com'
+		# 	# text_content = 'This is an important message.'
+		# 	# html_content = '<p>This is an <strong>important</strong> message.</p>'
+		# 	# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+		# 	# msg.attach_alternative(html_content, "text/html")
+		# 	# msg.send()
 
 		message_text = "marketing_confirmation_status"
 		if self.pk:
@@ -144,6 +164,8 @@ class Marketing(AbstractDefault):
 				day = str(self.created_date.day)
 			else:
 				day = '0' + str(self.created_date.day)
+			# # accomodation = AccomodationStarAndType.objects.create(accomodation_type = '2 star', accomodation_star = 'Hotel')
+			# print self.accomodation
 			if self.pk is not None:
 				Booking.objects.filter(marketing_id = self.pk).update(customer = self.customer, remarks = self.remarks, departure_date = self.departure_date, arrival_date = self.arrival_date, no_of_days = self.no_of_days, 
 					no_of_nights = self.no_of_nights, no_of_adult = self.no_of_adult, no_of_infant = self.no_of_infant, no_of_children = self.no_of_children, total_person = self.total_person, mealplan = self.mealplan, mealPlan_type = self.mealPlan_type)

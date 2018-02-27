@@ -16,6 +16,7 @@ from django.template import Context
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from master.action import send_sms
+from django.template.loader import render_to_string
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -117,9 +118,8 @@ class Marketing(AbstractDefault):
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
 				# print "sending_sms_and_email_edit"
 				# SMS CODE
-				htmly=get_template('market_email.html')
-
-				d = Context({ 'username': self.customer.customer_name })	
+				d = Context({ 'username': self.customer.customer_name,'message':message })
+				htmly=render_to_string('email.html',d)
 				subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 				text_content = "Oozaaoo Marketing Status"
 				html_content = htmly.render(d)
@@ -132,9 +132,8 @@ class Marketing(AbstractDefault):
 			# print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
-			htmly=get_template('email.html')
-
-			d = Context({ 'username': self.customer.customer_name })	
+			d = Context({ 'username': self.customer.customer_name,'message':message })
+			htmly=render_to_string('email.html',d)	
 			subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
 			text_content = "Oozaaoo Marketing Status"
 			html_content = htmly.render(d)

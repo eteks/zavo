@@ -20,8 +20,13 @@ from django.template import Context
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from master.action import send_sms
+from django.template.loader import render_to_string
+from django.db.models.signals import post_save, m2m_changed
+from django.dispatch import receiver
+
 import socket
 socket.getaddrinfo('localhost', 8080)
+
 # ACCOMODATION_TYPE = (
 # 		('1', 'Hotel'),
 # 		('2', 'Resort')
@@ -64,7 +69,7 @@ socket.getaddrinfo('localhost', 8080)
 # @receiver(post_save,sender = Marketing)
 
 class Marketing(AbstractDefault):
-	customer = models.ForeignKey(Customer, verbose_name = 'Customer ID')
+	customer = models.ForeignKey(Customer, verbose_name = 'Customer Name')
 	places_to_visit = models.CharField(verbose_name = 'Places to Visit',max_length=255)
 	departure_date = models.DateField(verbose_name = 'Date of Departure')
 	arrival_date = models.DateField(verbose_name = 'Date of Arrival')
@@ -99,6 +104,7 @@ class Marketing(AbstractDefault):
 			raise ValidationError("Arrival date should be higher than departure date")
 
 	def save(self, *args, **kwargs):
+		# print self.accomodation
 		# Saving the no. of days automatically from departure_date and arrival_date
 		days_diff = self.arrival_date - self.departure_date
 		diff = int(days_diff.days)
@@ -151,12 +157,20 @@ class Marketing(AbstractDefault):
 		if self.pk:
 			old_object = Marketing.objects.get(id=self.pk)
 			if self.marketing_confirmation_status and old_object.marketing_confirmation_status==0:
-				# print "sending_sms_and_email_edit"
+				print "sending_sms_and_email_edit"
 				# SMS CODE
-				send_sms(self.customer.customer_mobile,message_text)
+				# d = Context({ 'username': self.customer.customer_name })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+				# text_content = "Oozaaoo Marketing Status"
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
+				# send_sms(self.customer.customer_mobile,message_text)
 
 		if self.pk is None and self.marketing_confirmation_status:
-			# print "update_form"
+			print "update_form"
 			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
 			# plaintext = get_template('email.txt')
 			#comment started
@@ -170,6 +184,14 @@ class Marketing(AbstractDefault):
 			# msg.attach_alternative(html_content, "text/html")
 			# msg.send()
 			#comment end
+			# d = Context({ 'username': self.customer.customer_name })
+			# htmly=render_to_string('email.html',d)	
+			# subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = "Oozaaoo Marketing Status"
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
 			# subject, from_email, to = 'hello', 'kalaimca.gs@gmail.com', 'anand@etekchnoservices.com'
 			# text_content = 'This is an important message.'
 			# html_content = '<p>This is an <strong>important</strong> message.</p>'
@@ -178,7 +200,7 @@ class Marketing(AbstractDefault):
 			# msg.send()
 
 			# SMS CODE
-			send_sms(self.customer.customer_mobile,message_text)
+			# send_sms(self.customer.customer_mobile,message_text)
 
 			
 		# print self.accomodation
@@ -273,4 +295,18 @@ def post(sender, instance,created, **kwargs):
 post_save.connect(post, sender=Marketing)
 
 
+@receiver(m2m_changed,sender=Marketing.accomodation.through)
+def post_save_marketing(sender, instance, action,**kwargs):
+	# print "post_save_marketing"
+	# print instance.accomodation
+	bookings = Booking.objects.get(marketing_id=instance.id)
+	filters = Marketing.objects.filter(accomodation__marketing=instance.id).values_list('accomodation')
+	# print int(list(filters))
+	acc = []
+	for i in list(filters):
+		test = [acc.append(int(j)) for j in list(i)]
+	print acc
+	# bookings.accomodation.remove()
+	for acc_data in acc:
+		bookings.accomodation.add(acc_data)
 

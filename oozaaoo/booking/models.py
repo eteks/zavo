@@ -6,6 +6,12 @@ from tourpackage.models import Tourpackage
 from customer.models import Customer
 from master.models import *
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template.loader import render_to_string
+from django.template import Context
+from django.conf import settings
+from master.action import send_sms
 
 # Create your models here.
 class Booking(AbstractDefault,TransportInfo):
@@ -21,7 +27,7 @@ class Booking(AbstractDefault,TransportInfo):
 	no_of_children = models.IntegerField(verbose_name = 'No. of Children')
 	no_of_infant = models.IntegerField(verbose_name = 'No. of Infant')
 	total_person = models.IntegerField(verbose_name = 'Total Person')
-	package_cost = models.DecimalField(verbose_name = 'Package Cost', max_digits = 10, decimal_places = 2,default = 0 ) #Automatic generation
+	package_cost = models.DecimalField(verbose_name = 'Package Cost', max_digits = 10, decimal_places = 2,default = 0, help_text="Package cost will be generated automatically based on package selection" ) #Automatic generation
 	discount = models.DecimalField(verbose_name = 'Discount (if any)', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	total_cost = models.DecimalField(verbose_name = 'Total Cost', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
 	paid_amount = models.DecimalField(verbose_name = 'Paid Amount', max_digits = 10, decimal_places = 2,default = 0) #Automatic generation
@@ -51,20 +57,53 @@ class Booking(AbstractDefault,TransportInfo):
 		self.total_person = int(self.no_of_adult + self.no_of_children + self.no_of_infant)
 		# Saving the total cost from package cost and discount
 		self.total_cost = self.package_cost - self.discount
-		
-		# if self.pk is not None and self.booking_confirmation_status:
-		# 	# print "update_form"
-		# 	# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
-		# 	# plaintext = get_template('email.txt')
-		# 	htmly=get_template('email.html')
+		if self.pk:
+			old_object = Booking.objects.get(id=self.pk)
+			if self.booking_confirmation_status and old_object.booking_confirmation_status==0:
+				status='Oozaaoo Booking Status'
+				message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+				# print "update_form"
+				# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+				# if self.pk is not None and self.coordination_confirmation_status:
+				# 	status='Oozaaoo Tour Plan Status'
+				# 	message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
+				# plaintext = get_template('email.txt')
+				# if self.pk is not None and self.finance_confirmation_status:
+				# 	status='Oozaaoo Finance Status'
+				# 	message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+				# d = Context({ 'username': self.customer.customer_name,'message':message })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+				# text_content = status
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
+				# send_sms(self.customer.customer_mobile,message_text)
 
-		# 	d = Context({ 'username': self.customer.customer_name })	
-		# 	subject, from_email, to = 'Oozaaoo Marketing Status', settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
-		# 	text_content = "Oozaaoo Marketing Status"
-		# 	html_content = htmly.render(d)
-		# 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-		# 	msg.attach_alternative(html_content, "text/html")
-		# 	msg.send()
+		if self.pk is None and self.booking_confirmation_status:
+			status='Oozaaoo Booking Status'
+			message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+			# print "update_form"
+			# send_mail('Test', 'Hi buddy', 'kalaimca.gs@gmail.com', ['anand@etekchnoservices.com'])
+			# if self.pk is not None and self.coordination_confirmation_status:
+			# 	status='Oozaaoo Tour Plan Status'
+			# 	message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
+			# plaintext = get_template('email.txt')
+				# if self.pk is not None and self.finance_confirmation_status:
+				# 	status='Oozaaoo Finance Status'
+				# 	message='Your booking process was completed our coordination team will contact you regarding the ticket conformation with the schedule plan.'
+			# d = Context({ 'username': self.customer.customer_name,'message':message })
+			# htmly=render_to_string('email.html',d)
+			# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = status
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
+
+			# SMS CODE
+			# send_sms(self.customer.customer_mobile,message_text)		
 
 		super( Booking, self ).save( *args, **kw )	
 
@@ -72,6 +111,38 @@ class Booking(AbstractDefault,TransportInfo):
 		return self.customer.customer_name
 
 class Coordination(Booking):
+
+	def save(self, *args, **kw):
+		if self.pk:
+			old_object = Coordination.objects.get(id=self.pk)
+			if self.coordination_confirmation_status and old_object.coordination_confirmation_status==0:
+				status='Oozaaoo Tour Plan Status'
+				message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
+				# d = Context({ 'username': self.customer.customer_name,'message':message })
+				# htmly=render_to_string('email.html',d)
+				# subject, from_email, to = status, settings.EMAIL_HOST_USER, 'anand@etekchnoservices.com'
+				# text_content = status
+				# html_content = htmly
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
+				# msg.send()
+				# SMS CODE
+				# send_sms(self.customer.customer_mobile,message_text)
+
+		if self.pk is None and self.coordination_confirmation_status:
+			status='Oozaaoo Tour Plan Status'
+			message='Your tour plan was scheduled and the information was attached with this mail. Please contact us if you have any queries.'
+			# d = Context({ 'username': self.customer.customer_name,'message':message })
+			# htmly=render_to_string('email.html',d)
+			# subject, from_email, to = status, settings.EMAIL_HOST_USER, self.customer.customer_email
+			# text_content = status
+			# html_content = htmly
+			# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+			# msg.attach_alternative(html_content, "text/html")
+			# msg.send()
+			# SMS CODE
+			# send_sms(self.customer.customer_mobile,message_text)	
+		super( Coordination, self ).save( *args, **kw )
 	class Meta:
 		proxy = True
 

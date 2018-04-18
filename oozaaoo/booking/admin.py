@@ -5,6 +5,8 @@ from django.contrib import admin
 from models import Booking, Coordination, Finance, Customer, Tourpackage
 # from forms import BookingForm
 from django.utils.translation import ugettext, ugettext_lazy as _
+from booking.forms import *
+
 
 def export_as_csv(modeladmin, request, queryset):
 	import csv
@@ -87,11 +89,13 @@ def export_as_csv(modeladmin, request, queryset):
 class BookingAdmin(admin.ModelAdmin):
 	value = 'booking'
 	model = Booking
+	form = BookingForm
 
 	list_display = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
-	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status','created_date','active_status')
-	
-	readonly_fields = ['booking_id','no_of_days','total_person','created_date','modified_date','paid_amount','total_cost','finance_confirmation_status','coordination_confirmation_status']
+	list_filter = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person','booking_confirmation_status','coordination_confirmation_status','finance_confirmation_status')
+	search_fields = ('customer','departure_date','arrival_date','no_of_days','no_of_nights','total_person',)
+	# readonly_fields = ['no_of_days','total_person','created_date','modified_date','paid_amount','total_cost']
+	readonly_fields = ['booking_id','created_date','modified_date','finance_confirmation_status','coordination_confirmation_status']
 	fieldsets = (
         (_('Customer Details'), {'fields': ['customer','booking_id']}),
         (_('Packages'), {'fields': ('package', 'departure_date', 'arrival_date','no_of_days','no_of_nights',
@@ -115,6 +119,8 @@ class BookingAdmin(admin.ModelAdmin):
 	# def get_actions(self, request):
 	# 	actions = super(BookingAdmin, self).get_actions(request)
 	# 	return actions
+	class Media:
+		js = ('admin/js/jquery-1.11.3.min.js', 'admin/js/action.js')
 
 class CoordinationAdmin(admin.ModelAdmin):
 	value = 'coordination'

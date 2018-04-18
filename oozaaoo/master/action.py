@@ -1,6 +1,6 @@
 # phone validation
 from django.core.validators import RegexValidator
-from django.conf import settings
+
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 import requests
 filename_path = ""
@@ -21,14 +21,10 @@ def update_file(instance, filename):
 	print "1" + filename_path
 	print "2" +file_root
 	return file_root
-	def give_fileName():
-		print "3" +filename_path
-		return filename_path
 
 def give_fileName():
 	print "3" +filename_path
 	return filename_path
-
 
 
 def send_sms(mobile_number,text):

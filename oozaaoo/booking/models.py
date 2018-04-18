@@ -8,7 +8,7 @@ from master.models import *
 from django.core.exceptions import ValidationError
 
 # Create your models here.
-class Booking(AbstractDefault):
+class Booking(AbstractDefault,TransportInfo):
 	customer = models.ForeignKey(Customer, verbose_name = 'Customer ID')
 	marketing_id = models.IntegerField(verbose_name = 'Marketing ID')
 	booking_id = models.CharField(verbose_name='Auto generated booking Id',max_length=500, null = True)
@@ -33,6 +33,7 @@ class Booking(AbstractDefault):
 	booking_confirmation_status = models.BooleanField(verbose_name ='Booking Team Confirmation status', default = False)
 	coordination_confirmation_status = models.BooleanField(verbose_name ='Co-ordination Team Confirmation status', default = False)
 	finance_confirmation_status = models.BooleanField(verbose_name ='Finance Team Confirmation status', default = False)
+	customer_status = models.TextField(verbose_name = 'Customer status', max_length = 65000)
 
 	def clean(self):
 		days_diff = self.arrival_date - self.departure_date
@@ -71,8 +72,8 @@ class Booking(AbstractDefault):
 		return self.customer.customer_name
 
 class Coordination(Booking):
-    class Meta:
-        proxy = True
+	class Meta:
+		proxy = True
 
 class Finance(Coordination):
     class Meta:

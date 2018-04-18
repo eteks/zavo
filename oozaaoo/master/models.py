@@ -79,3 +79,20 @@ class TransportModeAndType(models.Model):
 
     def __str__(self):
 		return '%s - %s' % (self.transportMode, self.transportType)
+
+class AccomodationInfo(models.Model):
+	hotel_name = models.CharField(verbose_name = 'Hotel name & address', max_length = 1000)
+	room_no = models.PositiveIntegerField(verbose_name = 'Room No.', default = False, null = True)
+	check_in = models.DateTimeField(verbose_name = 'Check In', default = datetime.now, null = True)
+	check_out = models.DateTimeField(verbose_name = 'Check Out', default = datetime.now, null = True)
+
+	def __str__(self):
+		return self.id
+
+class TransportInfo(AccomodationInfo):
+	transport_name = models.CharField(verbose_name = 'Bus Name (Vehicle No.)', max_length = 50)
+	departure_time = models.DateTimeField(verbose_name = 'Departure Time', default = datetime.now, null = True)
+	arrival_time = models.DateTimeField(verbose_name = 'Arrival Time', default = datetime.now,null = True)
+
+	def __str__(self):
+		return self.id
